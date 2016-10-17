@@ -1,2 +1,6 @@
 *.java~
 *.class
+*.prefs
+Pepys Problem/.classpath
+*.project
+*.classpath
