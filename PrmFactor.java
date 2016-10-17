@@ -2,7 +2,7 @@ import java.lang.Integer;
 import java.util.*;
 
 /*
- * Wrtten by Jordane Thomas for Advance Computer Science Class 
+ * Written by Jordane Thomas for Advance Computer Science Class 
  * 
  * Should get a number from the command line and 
  * then return the prime factorization of that number
@@ -30,7 +30,7 @@ class PrmFactor{
    * factorizations.
    */
   public static ArrayList<Integer> getPrimeFactorization(int num){
-    ArrayList answers = new ArrayList ();
+    ArrayList<Integer> answers = new ArrayList<Integer> ();
     int divBy = 2;
     while(num != 0){
       if (num%divBy == 0){//if divisable by divBy
