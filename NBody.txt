@@ -1,0 +1,66 @@
+public class nbodysim {
+    public static void main (String [] args) {
+        int N = StdIn.readInt();
+        double R = StdIn.readDouble();
+        double[] px = new double[N];
+        double[] py = new double[N];
+        double[] vx = new double[N];
+        double[] vy = new double[N];
+        double[] mass = new double[N];
+        String[] image = new String[N];
+        double T = Double.parseDouble(args[0]);
+        double dt = Double.parseDouble(args[1]);
+        double G = 6.67e-11;
+        StdDraw.setXscale(-R, R);
+        StdDraw.setYscale(-R, R);
+        for(int i = 0; i < N; i++){
+            px[i] = StdIn.readDouble();
+            py[i] = StdIn.readDouble();
+            vx[i] = StdIn.readDouble();
+            vy[i] = StdIn.readDouble();
+            mass[i] = StdIn.readDouble();
+            image[i] = StdIn.readString();
+        }
+        StdOut.printf("%d\n", N);
+        StdOut.printf("%.2e\n", R);
+        for (int i = 0; i < N; i++) 
+        {
+            StdOut.printf("%11.4e %11.4e %11.4e %11.4e %11.4e %12s\n",
+                   px[i], py[i], vx[i], vy[i], mass[i], image[i]);
+        }
+        for (double j = 0.0; j < T; j++)
+        {
+            StdDraw.picture(0, 0, "starfield.jpg");
+            for(int a = 0; a < N; a++){
+                double Fx = 0.0;
+                double Fy = 0.0;
+                for(int b = 0; b < N; b++)
+                {
+                    double dx = 0.0;
+                    double dy = 0.0;
+                    double Force = 0.0;
+                    double d = 0.0;
+                    if(a != b){
+                        dx = px[b] - px[a];
+                        dy = py[b] - py[a];
+                        d = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+                        Force = (G * mass[a] * mass[b]) / Math.pow(d, 2); 
+                        Fx += Force * (dx / d);
+                        Fy += Force * (dy / d);
+                    }
+                }
+                double ax = Fx / mass[a];
+                double ay = Fy / mass[a];
+                vx[a] = vx[a] + (dt * ax);
+                vy[a] = vy[a] + (dt * ay);
+            }
+            for (int i = 0; i < N; i++) 
+            {
+                px[i] = px[i] + (dt * vx[i]);
+                py[i] = py[i] + (dt * vy[i]);
+                StdDraw.picture(px[i], py[i], image[i]);       
+            }
+            StdDraw.show(20);
+        }
+    }
+}
