@@ -1,5 +1,12 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.Scanner;
+
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
+
+import javafx.print.Collation;
 
 /*
  * a function takes in the raw input, and out put a 2d array containing each the works sorted in to the arrays
@@ -7,6 +14,21 @@ import java.util.Scanner;
  * last function returns the table as a string
  */
 public class FrequencyCount{
+	
+	public static class Word {
+		int freq;
+		String word;
+		
+		public Word(int freq, String word){
+			this.freq = freq;
+			this.word = word;
+		}
+		
+		public String toString(){
+			return "[ "+freq+", \""+word+"\" ]";
+		}
+	}
+
 	
 	public static String printArray( String[] array ){
 		String string = "[ ";
@@ -47,14 +69,14 @@ public class FrequencyCount{
 		
 		return words ;
 	}
-	
-	public static String[][] toFrequencyList(String[] wordList){
+	//buggy and unstable
+	public static ArrayList<Word> toFrequencyList(String[] wordList){
 		System.out.println("\n\n\nEntered Frequency method");
 		String whatISee = "";
 		int curCount = 0;
-		ArrayList<String []> wordFreq = new ArrayList<String []>();
+		ArrayList<Word> wordFreq = new ArrayList<Word>();
 		String [] packet = new String[2];
-		
+		//ArrayList words = new  ArrayList();
 		
 		for (String word: wordList ){
 			if (whatISee.equals("")) {
@@ -70,15 +92,13 @@ public class FrequencyCount{
 				System.out.println("I stopped seeing : "+whatISee+" : So I Created a packet for that word ending the counter at : " + curCount + "\nNow I'm looking for: "+word);
 				whatISee = word;
 				packet[0] = whatISee;
-				packet[1] = curCount + "" ;
-				wordFreq.add(packet);
+				wordFreq.add(new Word(curCount , whatISee));//System.out.println("inSide the packet is: "+word);
+				System.out.println("- the word is: "+wordFreq.get(wordFreq.size()-1));
 				curCount = 1;
 				
 			}
 		}
-		String[][] output = new String[wordFreq.size()][2];
-		wordFreq.toArray(output);
-		return output;
+		return wordFreq;
 	}
 	
 	public static void main(String[] args) {
@@ -86,10 +106,17 @@ public class FrequencyCount{
 		String input = scan.nextLine().toLowerCase();// assume no "."s for any punctuation
 		String[] words = toSortedArray(input);
 		
-		String[][] list = toFrequencyList(words);
+		ArrayList<Word> orderedList = toFrequencyList(words);
 		
-		for (int i = 0; i < list.length ; i++){
-			System.out.println(" xzword : " + list[i][0] + " : is seen : " + list[i][1] + " : times");
+		orderedList.sort(new Comparator<Word>(){
+			@Override
+			public int compare(Word o1, Word o2){
+				return Integer.compare(o1.freq, o2.freq);
+			}
+		});
+		
+		for (int i = 0; i < orderedList.size() ; i++){
+			System.out.println("word : " + orderedList.get(i).word + " : is seen : " + orderedList.get(i).freq + " : times");
 		}
 	}
 
