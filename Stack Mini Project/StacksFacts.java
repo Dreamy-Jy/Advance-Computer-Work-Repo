@@ -10,7 +10,8 @@ public class StacksFacts {
 	public static void main(String[] args) {
 
 		Stack<String> stc = new Stack<String>();
-		stc.addAll(Arrays.asList(args));
+		for(String s: args)
+			stc.push(s);
 
 		while (stc.size() > 0)
 			System.out.print(stc.pop() + " ");
