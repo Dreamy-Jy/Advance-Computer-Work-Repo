@@ -66,7 +66,7 @@ class Converter extends JFrame {
 		setVisible(true);
 	}
 
-	public double convertToC(double f) {
+	private double convertToC(double f) {
 		return ((f - 32) * 5) / 9;
 	}
 	private double convertToF(double c) {
